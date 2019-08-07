@@ -1,0 +1,30 @@
+{
+    "name": "sharedsway/sharedsway",
+    "description": "一个简单的框架",
+    "type": "library",
+    "require": {
+        "php": ">=7.2",
+        "ext-swoole": ">=4.0.0",
+        "ext-json": "*",
+        "ext-libxml": "*",
+        "ext-mbstring": "*",
+        "ext-simplexml": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sharedsway\\Sharedsway\\": "src/"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Zy",
+            "email": "284141050@qq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require-dev": {
+        "codeception/codeception": "3.0.x-dev",
+        "eaglewu/swoole-ide-helper": "dev-master"
+    }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "sharedsway",
+  "version": "0.0.0",
+  "scripts": {
+    "env": "docker-compose run --rm site bash"
+  }
+}
