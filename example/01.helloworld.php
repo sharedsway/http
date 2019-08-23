@@ -9,4 +9,4 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-(new \Sharedsway\Sharedsway\Application())->start();
+(new \Sharedsway\Http\Application())->start();

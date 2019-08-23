@@ -6,7 +6,7 @@
  * Time: 下午11:27
  */
 
-namespace Sharedsway\Sharedsway;
+namespace Sharedsway\Http;
 
 use Swoole;
 
@@ -68,29 +68,41 @@ class Application
      */
     public function onRequest(Swoole\Http\Request $request, Swoole\Http\Response $response)
     {
-        ob_start();
-        // ---- script start
-        //浏览器请求的写这里就如同传统php的入口文件 index.php
 
-        echo 'hello world!!!';
+        $http = new Http($request, $response);
 
+        $http->use(function ($context, $next) {
+            $context->hello = 'world';
+            var_dump('start 1');
+            $next();
+            var_dump('end 1');
+        });
 
-        echo '<pre>';
-        echo '------ server ------';
-        print_r($request->server ?? []);
-        echo '------ get ------';
-        print_r($request->get ?? []);
-        echo '------ post ------';
-        print_r($request->post ?? []);
-        echo '</pre>';
+        $http->use(function ($context, $next) {
+            var_dump('start 2');
+            $next();
+            var_dump('end 2');
+        });
 
-        //输出到控制台，使用标准输出
-        fwrite(STDOUT, "console.log(\"hello world\");\n");
+        $http->use(function ($context, $next) {
+            var_dump('start 3');
+            $next();
+            var_dump('end 3');
+        });
 
-        // ---- script end
-        $content = ob_get_contents();
-        ob_end_clean();
-        $response->end($content);
+        $http->use('/hello', function ($context, $next) {
+            var_dump('the response is "hello hello"');
+        });
+
+        $http->use(function ($context, $next) {
+            var_dump('hello ' . $context->hello);
+        });
+
+        $http->use(function ($context, $next) {
+            var_dump('this is not visible');
+        });
+
+        $http->handle();
     }
 
 

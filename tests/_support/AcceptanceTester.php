@@ -1,5 +1,5 @@
 <?php
-namespace Sharedsway\Sharedsway\Test;
+namespace Sharedsway\Http\Test;
 
 /**
  * Inherited Methods

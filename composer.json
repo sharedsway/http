@@ -1,5 +1,5 @@
 {
-    "name": "sharedsway/sharedsway",
+    "name": "sharedsway/http",
     "description": "一个简单的框架",
     "type": "library",
     "require": {
@@ -8,13 +8,20 @@
         "ext-json": "*",
         "ext-libxml": "*",
         "ext-mbstring": "*",
-        "ext-simplexml": "*"
+        "ext-simplexml": "*",
+        "sharedsway/di": "dev-master",
+        "sharedsway/event": "dev-master"
     },
     "autoload": {
         "psr-4": {
-            "Sharedsway\\Sharedsway\\": "src/"
+            "Sharedsway\\Http\\": "src/"
         }
     },
+  "autoload-dev": {
+    "psr-4": {
+      "Sharedsway\\Http\\Test\\": "tests/unit/"
+    }
+  },
     "license": "MIT",
     "authors": [
         {

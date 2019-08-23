@@ -9,5 +9,5 @@ modules:
     enabled:
         - PhpBrowser:
             url: http://localhost/myapp
-        - \Sharedsway\Sharedsway\Test\Helper\Acceptance
+        - \Sharedsway\Http\Test\Helper\Acceptance
     step_decorators: ~        

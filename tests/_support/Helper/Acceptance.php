@@ -1,5 +1,5 @@
 <?php
-namespace Sharedsway\Sharedsway\Test\Helper;
+namespace Sharedsway\Http\Test\Helper;
 
 // here you can define custom actions
 // all public methods declared in helper class will be available in $I

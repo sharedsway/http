@@ -1,4 +1,4 @@
-namespace: Sharedsway\Sharedsway\Test
+namespace: Sharedsway\Http\Test
 paths:
     tests: tests
     output: tests/_output
