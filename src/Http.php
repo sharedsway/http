@@ -12,7 +12,7 @@ namespace Sharedsway\Http;
 use Sharedsway\Common\Text;
 use Sharedsway\Http\Http\MiddlewareArg;
 
-class Http
+class Http implements HttpInterface
 {
 
     /**
