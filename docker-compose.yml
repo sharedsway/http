@@ -13,7 +13,7 @@ services:
       - 0.0.0.0:50010:50010
     user: "debian"
     working_dir: '/app'
-    command: ["php","example/02.server.start.php"]
+    command: ["php","example/03.server.start.php"]
 volumes:
   app:
     driver: local

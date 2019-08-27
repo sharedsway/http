@@ -9,10 +9,49 @@
 namespace Sharedsway\Http;
 
 use Swoole;
+use Sharedsway\Http\Http\MiddlewareArg;
 
 
 class Application
 {
+
+    /**
+     * 中间件
+     * @var MiddlewareArg[]
+     */
+    protected $middleware = [];
+
+
+    /**
+     * 注册中间件
+     * @param $middleware
+     */
+    public function use($middleware)
+    {
+        $fn  = @func_get_arg(0);
+        $fn2 = @func_get_arg(1);
+
+
+        $uri        = '*';
+        $middleware = null;
+
+
+        if (is_string($fn)) {
+            $uri = $fn;
+            if (is_callable($fn2)) {
+                $middleware = $fn2;
+            }
+        } else {
+            $middleware = $fn;
+        }
+
+        if (!is_callable($middleware)) {
+            fwrite(STDOUT, sprintf('middleware used error,the middleware is not callable %s', PHP_EOL));
+            return;
+        }
+
+        $this->middleware[] = new MiddlewareArg($uri, $middleware);
+    }
 
 
     public function start()
@@ -71,36 +110,12 @@ class Application
 
         $http = new Http($request, $response);
 
-        $http->use(function ($context, $next) {
-            $context->hello = 'world';
-            var_dump('start 1');
-            $next();
-            var_dump('end 1');
-        });
+        //
+        foreach ($this->middleware as $middlewareArg) {
+            $http->use($middlewareArg->uri, $middlewareArg->middleware);
+        }
 
-        $http->use(function ($context, $next) {
-            var_dump('start 2');
-            $next();
-            var_dump('end 2');
-        });
 
-        $http->use(function ($context, $next) {
-            var_dump('start 3');
-            $next();
-            var_dump('end 3');
-        });
-
-        $http->use('/hello', function ($context, $next) {
-            var_dump('the response is "hello hello"');
-        });
-
-        $http->use(function ($context, $next) {
-            var_dump('hello ' . $context->hello);
-        });
-
-        $http->use(function ($context, $next) {
-            var_dump('this is not visible');
-        });
 
         $http->handle();
     }
