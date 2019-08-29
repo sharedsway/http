@@ -34,17 +34,17 @@ class Http implements HttpInterface
 
     /**
      * Http constructor.
-     * @param $request
-     * @param $response
      */
-    public function __construct($request, $response)
+    public function __construct()
     {
 
-        $this->context = new Context();
 
         //给 request 和 response 赋值，目前 ，先直接把Swoole\Http\Request 和 Response 赋进去。后面再进行封装
-        $this->context->request  = $request;
-        $this->context->response = $response;
+    }
+
+    public function setContext(Context $context)
+    {
+        $this->context = $context;
     }
 
     /**

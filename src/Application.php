@@ -8,6 +8,7 @@
 
 namespace Sharedsway\Http;
 
+use Sharedsway\Di\Di;
 use Swoole;
 use Sharedsway\Http\Http\MiddlewareArg;
 
@@ -108,13 +109,25 @@ class Application
     public function onRequest(Swoole\Http\Request $request, Swoole\Http\Response $response)
     {
 
-        $http = new Http($request, $response);
+        // init di ，后面用可以考虑事件管理器生成
+        $di = new Di();
+        $di->setShared('swooleRequest', $request);
+        $di->setShared('swooleResponse', $response);
+
+        // init context ，后面用可以考虑事件管理器生成
+        $context = new Context();
+        $context->setDI($di);
+        $context->response = $response;
+        $context->request  = $request;
+
+        // init context ，后面用可以考虑事件管理器生成
+        $http = new Http();
+        $http->setContext($context);
 
         //
         foreach ($this->middleware as $middlewareArg) {
             $http->use($middlewareArg->uri, $middlewareArg->middleware);
         }
-
 
 
         $http->handle();

@@ -6,6 +6,7 @@
  * Time: 下午11:42
  */
 namespace Sharedsway\Http;
+use Sharedsway\Di\DiInterface;
 use Sharedsway\Di\Library\InjectableAwareTrait;
 use Sharedsway\Di\Library\InjectionAwareInterface;
 
@@ -15,6 +16,7 @@ use Sharedsway\Di\Library\InjectionAwareInterface;
  * @package Sharedsway\Http
  * @property $request
  * @property $response
+ * @property DiInterface $di
  *
  */
 class Context implements InjectionAwareInterface
@@ -35,6 +37,10 @@ class Context implements InjectionAwareInterface
         $value = $this->ctx[$k] ?? null;
 
         //先不管其它，跑起来再说
+
+        if (!$value) {
+            $value = $this->getDI()->get($k);
+        }
         return $value;
     }
 
