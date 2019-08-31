@@ -10,8 +10,14 @@ namespace Sharedsway\Http;
 
 
 use Sharedsway\Common\Text;
+use Sharedsway\Event\Manager;
 use Sharedsway\Http\Http\MiddlewareArg;
 
+/**
+ * Class Http
+ * @package Sharedsway\Http
+ * @property Manager $eventManager
+ */
 class Http implements HttpInterface
 {
 
@@ -46,6 +52,7 @@ class Http implements HttpInterface
     {
         $this->context = $context;
     }
+
 
     /**
      * 注册中间件
@@ -110,7 +117,7 @@ class Http implements HttpInterface
         if ('*' === $middleUri) return true;
 
 
-        if($middleUri === $realUri) return true;
+        if ($middleUri === $realUri) return true;
 
         // 以 * 结尾，则用startsWith 判断
         if (preg_match('/\*$/', $middleUri)) {
@@ -159,7 +166,7 @@ class Http implements HttpInterface
             fwrite(STDOUT, 'no method' . PHP_EOL);
             return;
         }
-        $method        = $middlewareArg->middleware;
+        $method = $middlewareArg->middleware;
 
         $this->_gen->next();
 
@@ -187,6 +194,12 @@ class Http implements HttpInterface
      */
     public function handle()
     {
+        /// 这么写方便以后扩展
+        $eventArgs          = new \stdClass();
+        $eventArgs->context = $this->context;
+
+
+        $this->eventManager->fire('request:beforeHandle', $this, $eventArgs);
         ob_start();
         // ---- script start
 
@@ -197,5 +210,12 @@ class Http implements HttpInterface
         $content = ob_get_contents();
         ob_end_clean();
         $this->context->response->end($content);
+        $this->eventManager->fire('request:afterHandle', $this, $eventArgs);
+    }
+
+
+    public function __get($prop)
+    {
+        return $this->context->{$prop};
     }
 }

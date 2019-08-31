@@ -7,6 +7,7 @@
  */
 namespace Sharedsway\Http;
 use Sharedsway\Di\DiInterface;
+use Sharedsway\Di\Exception;
 use Sharedsway\Di\Library\InjectableAwareTrait;
 use Sharedsway\Di\Library\InjectionAwareInterface;
 
@@ -36,10 +37,14 @@ class Context implements InjectionAwareInterface
 
         $value = $this->ctx[$k] ?? null;
 
-        //先不管其它，跑起来再说
 
         if (!$value) {
-            $value = $this->getDI()->get($k);
+            try {
+
+                $value = $this->getDI()->get($k);
+            } catch (Exception $exception) {
+                return null;
+            }
         }
         return $value;
     }
