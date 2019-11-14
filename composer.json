@@ -1,0 +1,37 @@
+{
+    "name": "sharedsway/http",
+    "description": "一个简单的框架",
+    "type": "library",
+    "require": {
+        "php": ">=7.2",
+        "ext-swoole": ">=4.4.4",
+        "ext-json": "*",
+        "ext-libxml": "*",
+        "ext-mbstring": "*",
+        "ext-simplexml": "*",
+        "sharedsway/di": "dev-master",
+        "sharedsway/event": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sharedsway\\Http\\": "src/"
+        }
+    },
+  "autoload-dev": {
+    "psr-4": {
+      "Sharedsway\\Http\\Test\\": "tests/unit/"
+    }
+  },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Zy",
+            "email": "284141050@qq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require-dev": {
+        "codeception/codeception": "3.0.x-dev",
+        "eaglewu/swoole-ide-helper": "dev-master"
+    }
+}
